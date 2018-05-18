@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycat.mapper.ItemMapper">
+    <cache />
+
+    <select id="getOne" resultType="com.mycat.pojo.Item">
+        select * from item where id=#{id};
+    </select>
+
+
+	<!-- 为了保证mycat分库的操作会进行，同一查询会重新执行而不是在sqlSession中查找，需要加上flushCache="true"-->
+	<select id="count"  flushCache="true" resultType="java.lang.Integer">
+	select count(*) from item;
+	</select>
+	
+	<insert id="insert" parameterType="Item" keyProperty="id" useGeneratedKeys="true">
+	insert into item (id,value)
+	values (#{id},#{value});
+	</insert>
+
+</mapper>
